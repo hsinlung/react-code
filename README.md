@@ -1,70 +1,89 @@
-# Getting Started with Create React App
+# 学习React记录
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+* JSX 是 JavaScript 语言的一种语法扩展，长得像 HTML，但并不是 HTML。
 
-## Available Scripts
+* React.js 可以用 JSX 来描述你的组件长什么样的。
 
-In the project directory, you can run:
+* JSX 在编译的时候会变成相应的 JavaScript 对象描述。
+
+* react-dom 负责把这个用来描述 UI 信息的 JavaScript 对象变成 DOM 元素，并且渲染到页面上。
+
+## 组件的 render 方法
+
+* React.js 中一切皆组件，用 React.js 写的其实就是 React.js 组件。
+* 一个组件类必须要实现一个 render 方法，这个 render 方法必须要返回一个 JSX 元素。
+* 我们在编写 React.js 组件的时候，一般都需要继承 React.js 的 Component（还有别的编写组件的方式我们后续会提到）。
+* 注意：必须要用一个外层的 JSX 元素把所有内容包裹起来。返回并列多个 JSX 元素是不合法的
+```javascript
+... 
+// 正确的写法
+render () {
+  return (
+    <div>
+      <div>第一个</div>
+      <div>第二个</div>
+    </div>
+  )
+}
+...
+// 错误的写法
+...
+render () {
+    return (
+    <div>第一个</div>
+    <div>第二个</div>
+)
+}
+...
+```
+* 为 React 的组件添加事件监听是很简单的事情，你只需要使用 React.js 提供了一系列的 on* 方法即可。
+
+* React.js 会给每个事件监听传入一个 event 对象，这个对象提供的功能和浏览器提供的功能一致，而且它是兼容所有浏览器的。
+
+* React.js 的事件监听方法需要手动 bind 到当前实例，这种模式在 React.js 中非常常用。
+
+* 为了使得组件的可定制性更强，在使用组件的时候，可以在标签上加属性来传入配置参数。
+
+* 组件可以在内部通过 this.props 获取到配置参数，组件可以根据 props 的不同来确定自己的显示形态，达到可配置的效果。
+
+* 可以通过给组件添加类属性 defaultProps 来配置默认参数。
+
+* props 一旦传入，你就不可以在组件内部对它进行修改。但是你可以通过父组件主动重新渲染的方式来传入新的 props，从而达到更新的效果。
+
+##关于 state 和 props 的总结
+
+* state 的主要作用是用于组件保存、控制、修改自己的可变状态。
+* state 在组件内部初始化，可以被组件自身修改，而外部不能访问也不能修改。
+* 你可以认为 state 是一个局部的、只能被组件自身控制的数据源。
+* state 中状态可以通过 this.setState 方法进行更新，setState 会导致组件的重新渲染
+------------------------------------------------------------------------
+* props 的主要作用是让使用该组件的父组件可以传入参数来配置该组件。
+* 它是外部传进来的配置参数，组件内部无法控制也无法修改。
+* 除非外部组件主动传入新的 props，否则组件的 props 永远保持不变
+* state 和 props 有着千丝万缕的关系。
+* 它们都可以决定组件的行为和显示形态。
+* 一个组件的 state 中的数据可以通过 props 传给子组件，一个组件可以使用外部传入的 props 来初始化自己的 state。
+* 但是它们的职责其实非常明晰分明：state 是让组件控制自己的状态，props 是让外部对组件自己进行配置
+* 如果你觉得还是搞不清 state 和 props 的使用场景，那么请记住一个简单的规则：尽量少地用 state，尽量多地用 props
+* 没有 state 的组件叫无状态组件（stateless component），设置了 state 的叫做有状态组件（stateful component）
+* 因为状态会带来管理的复杂性，我们尽量多地写无状态组件，尽量少地写有状态的组件。
+* 这样会降低代码维护的难度，也会在一定程度上增强组件的可复用性。前端应用状态管理是一个复杂的问题。
+* React.js 非常鼓励无状态组件
+------------------------------------------------------------------------
+## 渲染列表数据
+列表数据在前端非常常见，我们经常要处理这种类型的数据，
+例如文章列表、评论列表、用户列表…一个前端工程师几乎每天都需要跟列表数据打交道。
+React.js 当然也允许我们处理列表数据，但在使用 React.js 处理列表数据的时候，需要掌握一些规则。
+
+* 一般来说，在 React.js 处理列表就是用 map 来处理、渲染的。
+* 对于用表达式套数组罗列到页面上的元素，都要为每个元素加上 key 属性，这个 key 必须是每个元素唯一的标识。
+* 一般来说，key 的值可以直接后台数据返回的 id，因为后台的 id 都是唯一的
+* 记住一点：在实际项目当中，如果你的数据顺序可能发生变化，标准做法是最好是后台数据返回的 id 作为列表元素的 key
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
 ### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
 ### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
