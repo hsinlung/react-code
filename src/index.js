@@ -7,6 +7,7 @@ import React,{ Component } from "react";
 * ReactDOM 可以帮助我们把 React 组件渲染到页面上去，没有其它的作用了
 * */
 import ReactDOM from "react-dom";
+import CommentApp from "./comment/CommentApp";
 import './index.css';
 
 /*
@@ -405,22 +406,26 @@ class User extends Component{
 class Index extends Component{
     render(){
         return(
-           <div>
-               {/* 组件可以和组件组合在一起 */}
-               <Title />
-               <Header />
-               {/*函数式组件*/}
-               <HelloWord />
-               <List /> {/*列表组件*/}
-           {/*  渲染单独一个用户的结构抽离出来作为一个组件  */}
-           {/* 这里把负责展示用户数据的 JSX 结构抽离成一个组件 User
-                并且通过 props 把 user 数据作为组件的配置参数传进去
-                这样改写 Index 就非常清晰了，看一眼就知道负责渲染 users 列表，而用的组件是 User
-                在上面的例子当中，每个 user 没有 id 可以用，可以直接用循环计数器 i 作为 key
-                记住一点：在实际项目当中，如果你的数据顺序可能发生变化，标准做法是最好是后台数据返回的 id 作为列表元素的 key
-              */}
-               {users.map((user,i)=><User key={i} user={user} />)}
-           </div>
+           // 基础部分
+           // <div>
+           //     {/* 组件可以和组件组合在一起 */}
+           //     <Title />
+           //     <Header />
+           //     {/*函数式组件*/}
+           //     <HelloWord />
+           //     <List /> {/*列表组件*/}
+           // {/*  渲染单独一个用户的结构抽离出来作为一个组件  */}
+           // {/* 这里把负责展示用户数据的 JSX 结构抽离成一个组件 User
+           //      并且通过 props 把 user 数据作为组件的配置参数传进去
+           //      这样改写 Index 就非常清晰了，看一眼就知道负责渲染 users 列表，而用的组件是 User
+           //      在上面的例子当中，每个 user 没有 id 可以用，可以直接用循环计数器 i 作为 key
+           //      记住一点：在实际项目当中，如果你的数据顺序可能发生变化，标准做法是最好是后台数据返回的 id 作为列表元素的 key
+           //    */}
+           //     {users.map((user,i)=><User key={i} user={user} />)}
+           // </div>
+            <div>
+                <CommentApp />
+            </div>
         )
     }
 }
